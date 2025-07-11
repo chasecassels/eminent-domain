@@ -21,9 +21,9 @@ class Card:
         self.desc = desc
         self.challenger = challenger
 
-    def play(self, game_state, players, player, team):
+    def play(self, game_state, players, player, team, discard_pile):
         game_state.log(f"\nTurn {game_state.turn}: {team} ({player}) plays '{self.name}'")
-        self.effect(game_state, team, players, self)
+        self.effect(game_state, team, players, self, discard_pile)
 
 class Player:
     def __init__(self, name, team):
@@ -50,7 +50,7 @@ class Player:
 # 2: suburb-devel
 # 3: urban-car-infra
 
-def tram_derailment(game_state, team, players, card):
+def tram_derailment(game_state, team, players, card, discard_pile):
     if game_state.scores[3] > 10:
         game_state.scores[1] -= 3
         game_state.log(f"-3 transit-infra (now {game_state.scores[1]})")
@@ -58,7 +58,7 @@ def tram_derailment(game_state, team, players, card):
         game_state.scores[1] += 3
         game_state.log(f"+3 transit-infra (now {game_state.scores[1]})")
 
-def strava_bro_assembly(game_state, team, players, card):
+def strava_bro_assembly(game_state, team, players, card, discard_pile):
     #change choice to take user decision input
     choice = random.choice([True, False])
     if choice:
@@ -68,9 +68,9 @@ def strava_bro_assembly(game_state, team, players, card):
         game_state.scores[1] -= 3
         game_state.log(f"-3 transit-infra (now {game_state.scores[1]})")
 
-def yimby_blunder(game_state, team, players, card):
+def yimby_blunder(game_state, team, players, card, discard_pile):
 
-    challenged = challenge_func(game_state, card, team, players)
+    challenged = challenge_func(game_state, card, team, players, discard_pile)
 
     if challenged:
         game_state.scores[0] += 3
@@ -82,12 +82,12 @@ def yimby_blunder(game_state, team, players, card):
         game_state.log(f"Standard funding. +3 density (now {game_state.scores[0]}), +2 urban-car infra (now {game_state.scores[3]})")
 
 #instantiation currently gives it challenge rights against yimby blunder
-def motor_envy(game_state, team, players, card):
+def motor_envy(game_state, team, players, card, discard_pile):
 
     game_state.scores[3] += 5
     game_state.log(f"+5 urban-car-infra (now {game_state.scores[3]})")
 
-def nimby_confusion(game_state, team, players, card):
+def nimby_confusion(game_state, team, players, card, discard_pile):
 
     game_state.scores[2] += 3
     game_state.scores[3] -= 3
@@ -98,7 +98,7 @@ def nimby_confusion(game_state, team, players, card):
 # Universal challenge function. Effects of a challenge
 # are defined in card effect functions 
 # -------------------------------
-def challenge_func(game_state, card, team, players):
+def challenge_func(game_state, card, team, players, discard_pile):
     game_state.log(f"Card challengable. Checking for challenges.")
     for player in players:
         for other_card in player.hand:
@@ -109,6 +109,7 @@ def challenge_func(game_state, card, team, players):
                     if choice == "y":
                         game_state.log(f"{player.name} Challenged! ")
                         player.discard(other_card)
+                        discard_pile.append(other_card)
                         return True
                     elif choice == "n":
                         return False
@@ -222,7 +223,7 @@ def player_turn(player, game_state, deck, discard_pile, players, max_hand=5):
         except ValueError:
             print("Please enter a number or 'd' followed by a card number.")
 
-    card.play(game_state, players, player.team, player.name)
+    card.play(game_state, players, player.team, player.name, discard_pile)
     discard_pile.append(card)
 
     while len(player.hand) > max_hand:

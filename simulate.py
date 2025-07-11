@@ -35,6 +35,11 @@ def simulate_game():
             game.log(f"\n{winner.upper()} WINS!")
             break
         player_index = (player_index + 1) % len(players)
+        print("\n----------------------------------------")
+        print("discard pile:")
+        for card in discard_pile:
+            print(card.name)
+        print("----------------------------------------")
 
 
     print("\nFinal shared scores:")
