@@ -53,45 +53,41 @@ class Player:
 def tram_derailment(game_state, team, players, card, discard_pile):
     if game_state.scores[3] > 10:
         game_state.scores[1] -= 3
-        game_state.log(f"-3 transit-infra (now {game_state.scores[1]})")
+        game_state.log(f"-3 {categories[1]} (now {game_state.scores[1]})")
     else:
         game_state.scores[1] += 3
-        game_state.log(f"+3 transit-infra (now {game_state.scores[1]})")
+        game_state.log(f"+3 {categories[1]} (now {game_state.scores[1]})")
 
 def strava_bro_assembly(game_state, team, players, card, discard_pile):
     #change choice to take user decision input
     choice = random.choice([True, False])
     if choice:
         game_state.scores[1] += 3
-        game_state.log(f"+3 transit-infra (now {game_state.scores[1]})")
+        game_state.log(f"+3 {categories[1]} (now {game_state.scores[1]})")
     else:
         game_state.scores[1] -= 3
-        game_state.log(f"-3 transit-infra (now {game_state.scores[1]})")
+        game_state.log(f"-3 {categories[1]} (now {game_state.scores[1]})")
 
 def yimby_blunder(game_state, team, players, card, discard_pile):
-
     challenged = challenge_func(game_state, card, team, players, discard_pile)
-
     if challenged:
         game_state.scores[0] += 3
         game_state.scores[3] += 4
-        game_state.log(f"Additional funding provided! +3 density (now {game_state.scores[0]}), +4 urban-car infra (now {game_state.scores[3]})")
+        game_state.log(f"Additional funding provided! +3 {categories[0]} (now {game_state.scores[0]}), +4 {categories[3]} (now {game_state.scores[3]})")
     else:
         game_state.scores[0] += 3
         game_state.scores[3] += 2
-        game_state.log(f"Standard funding. +3 density (now {game_state.scores[0]}), +2 urban-car infra (now {game_state.scores[3]})")
+        game_state.log(f"Standard funding. +3 {categories[0]} (now {game_state.scores[0]}), +2 {categories[3]} (now {game_state.scores[3]})")
 
 #instantiation currently gives it challenge rights against yimby blunder
 def motor_envy(game_state, team, players, card, discard_pile):
-
     game_state.scores[3] += 5
-    game_state.log(f"+5 urban-car-infra (now {game_state.scores[3]})")
+    game_state.log(f"+5 {categories[3]} (now {game_state.scores[3]})")
 
 def nimby_confusion(game_state, team, players, card, discard_pile):
-
     game_state.scores[2] += 3
     game_state.scores[3] -= 3
-    game_state.log(f"+3 suburb-devel (now {game_state.scores[2]}), -3 urban-car infra (now {game_state.scores[3]})")
+    game_state.log(f"+3 {categories[2]} (now {game_state.scores[2]}), -3 {categories[3]} (now {game_state.scores[3]})")
 
 
 # -------------------------------
@@ -164,10 +160,8 @@ deck = (
     [Card("Motor Envy", motor_envy, desc_4, None) for _ in range(13)] +
     [Card("NIMBY Confusion", nimby_confusion, desc_5, None) for _ in range(7)]
 ) 
-
 Team_1 = 'Amsterdam'
 Team_2 = 'Houston'
-
 categories = ["density", "transit-infra", "suburb-devel", "urban-car-infra"]
 
 # -------------------------------

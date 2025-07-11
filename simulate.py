@@ -36,7 +36,7 @@ def simulate_game():
             break
         player_index = (player_index + 1) % len(players)
         print("\n----------------------------------------")
-        print("discard pile:")
+        print("Discard pile:")
         for card in discard_pile:
             print(card.name)
         print("----------------------------------------")
