@@ -50,10 +50,12 @@ class Player:
 # -------------------------------
 # Card effect functions 
 # -------------------------------
+# Categories:
 # 0: density
 # 1: transit-infra
 # 2: suburb-devel
 # 3: urban-car-infra
+
 def tram_derailment(game_state, team, players, card):
     if game_state.scores[3] > 10:
         game_state.scores[1] -= 3
@@ -91,7 +93,11 @@ def motor_envy(game_state, team, players, card):
     game_state.scores[3] += 5
     game_state.log(f"+5 urban-car-infra (now {game_state.scores[3]})")
 
+def nimby_confusion(game_state, team, players, card):
 
+    game_state.scores[2] += 3
+    game_state.scores[3] -= 3
+    game_state.log(f"+3 suburb-devel (now {game_state.scores[2]}), -3 urban-car infra (now {game_state.scores[3]})")
 
 
 # -------------------------------
@@ -112,6 +118,8 @@ def challenge_func(game_state, card, team, players):
 # -------------------------------
 # Declare constants and card objects
 # -------------------------------
+
+#Tram Derailment
 desc_1 = (
     "A local light rail system has a minor derailment, injuring one passenger.\n"
     "If support for urban car infrastructure is sufficiently high, motor vehicle\n" 
@@ -120,20 +128,31 @@ desc_1 = (
     "-3/+2 support for transit infrastructure respectively.\n"
 )
 
+#Strava Bro Assembly
 desc_2 = (
     "A suburbanite cycling club is frustrated with all other road users slowing down their strava times.\n"
     "Decide if they lobby for bike lanes or against local bus routes. If challenged, they do the opposite.\n"
     "+3/-4 support for transit infrastructure respectively."
 )
 
-desc_3 = ("Several mixed-use complexes with limited parking are approved. Supporters were unaware that the\n"
-        "developer made a deal with the developer of a large parking complex nearby.\n" 
-        "+3 support for densification. +2 support for urban car infrastructure by default, +5 with additional funding."
+#YIMBY Blunder
+desc_3 = ("Several mixed-use complexes with limited parking are approved. Supporters were unaware that the\n"    
+    "developer made a deal with the developer of a large parking complex nearby.\n" 
+    "+3 support for densification. +2 support for urban car infrastructure by default, +5 with additional funding."
 )
 
+#Motor Envy
 desc_4 = ("General Motors runs a hugely successful advertising campaign in the city.\n" 
     "The fancy, seemingly affordable symbols of freedom fly off the lots.\n"
     "+5 support for urban car infrastructure."
+)
+
+#NIMBY Confusion
+desc_5 = ("A big proponent of urban car infrastructure finds out the new highway connector\n" 
+    "will pass right over their home. They feel betrayed, move further into the suburbs,\n "
+    "and oppose future developments.\n" 
+    "+3 support for suburban development, -3 support for urban car infrastructure."
+
 )
 
 #will need to tune individual card counts
@@ -141,7 +160,8 @@ deck = (
     [Card("Tram Derailment", tram_derailment, desc_1, None) for _ in range(10)] +
     [Card("Strava Bro Assembly", strava_bro_assembly, desc_2, None) for _ in range(12)] +
     [Card("YIMBY Blunder", yimby_blunder, desc_3, "Strava Bro Assembly") for _ in range(6)] +
-    [Card("Motor Envy", motor_envy, desc_4, None) for _ in range(13)]
+    [Card("Motor Envy", motor_envy, desc_4, None) for _ in range(13)] +
+    [Card("NIMBY Confusion", nimby_confusion, desc_5, None) for _ in range(7)]
 ) 
 
 Team_1 = 'Amsterdam'
@@ -173,7 +193,7 @@ def check_win(game_state):
 # -------------------------------
 def player_turn(player, game_state, deck, discard_pile, players, max_hand=5):
 
-    player.draw(deck, 2) #adjust how many card players draw at start of turn
+    player.draw(deck, 1) #adjust how many card players draw at start of turn
 
     game_state.log(f"\n{player.name} ({player.team})'s hand:")
     for idx, card in enumerate(player.hand):
