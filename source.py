@@ -136,14 +136,13 @@ desc_4 = ("General Motors runs a hugely successful advertising campaign in the c
     "+5 support for urban car infrastructure."
 )
 
-
-deck = [
-    Card("Tram Derailment", tram_derailment, desc_1, None),
-    Card("Strava Bro Assembly", strava_bro_assembly, desc_2, None),
-    Card("YIMBY Blunder", yimby_blunder, desc_3, "Strava Bro Assembly"),
-    Card("Motor Envy", motor_envy, desc_4, None)
-
-] * 30 #may need to adjust individual card counts
+#will need to tune individual card counts
+deck = (
+    [Card("Tram Derailment", tram_derailment, desc_1, None) for _ in range(10)] +
+    [Card("Strava Bro Assembly", strava_bro_assembly, desc_2, None) for _ in range(12)] +
+    [Card("YIMBY Blunder", yimby_blunder, desc_3, "Strava Bro Assembly") for _ in range(6)] +
+    [Card("Motor Envy", motor_envy, desc_4, None) for _ in range(13)]
+) 
 
 Team_1 = 'Amsterdam'
 Team_2 = 'Houston'
