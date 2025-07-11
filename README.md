@@ -12,6 +12,9 @@ Complete game contents:
 
 -Set card frequencies based on their power.
 
+-Add bluff functionality to challenges (allow player to 'doubt' challenge, allow challenges from
+any player regardless of their hand, after challenge request check hand for card)
+
 
 
 Initial testing:
