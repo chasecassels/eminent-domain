@@ -2,11 +2,17 @@
 
 Team-based urban planning themed card game with individual player turns. Currently has basic working structure and functionality. To-do:
 
+
+
 Complete game contents:
 
 -Create rest of cards from dextrous template.
+
 -Come up with ~10 new cards.
+
 -Set card frequencies based on their power.
+
+
 
 Initial testing:
 
@@ -19,6 +25,7 @@ Initial testing:
 -Test cards with challange components or interactive effects more rigorously.
 
 -Test cards with threshholds that determine their scoring  more rigorously.
+
 
 
 Further testing:
