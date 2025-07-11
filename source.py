@@ -48,7 +48,7 @@ class Player:
 
 
 # -------------------------------
-# Card effect functions
+# Card effect functions 
 # -------------------------------
 # 0: density
 # 1: transit-infra
@@ -86,9 +86,18 @@ def yimby_blunder(game_state, team, players, card):
         game_state.scores[3] += 2
         game_state.log(f"Standard funding. +3 density (now {game_state.scores[0]}), +2 urban-car infra (now {game_state.scores[3]})")
 
+def motor_envy(game_state, team, players, card):
+
+    game_state.scores[3] += 5
+    game_state.log(f"+5 urban-car-infra (now {game_state.scores[3]})")
 
 
 
+
+# -------------------------------
+# Universal challenge function. Effects of a challenge
+# are defined in card effect functions 
+# -------------------------------
 def challenge_func(game_state, card, team, players):
     game_state.log(f"Card challengable. Checking for challenges")
     for player in players:
@@ -106,27 +115,33 @@ def challenge_func(game_state, card, team, players):
 desc_1 = (
     "A local light rail system has a minor derailment, injuring one passenger.\n"
     "If support for urban car infrastructure is sufficiently high, motor vehicle\n" 
-    "lobbyists successfully sell the narrative that trams are dangerous. -3 support\n" 
-    "for transit infrastructure. Otherwise, investments are made in improving safety\n"
-    "of transit systems. +3 support for transit infrastructure.\n"
+    "lobbyists successfully sell the narrative that trams are dangerous.\n" 
+    "Otherwise, investments are made in improving safety of transit systems.\n"
+    "-3/+2 support for transit infrastructure respectively.\n"
 )
 
 desc_2 = (
     "A suburbanite cycling club is frustrated with all other road users slowing down their strava times.\n"
     "Decide if they lobby for bike lanes or against local bus routes. If challenged, they do the opposite.\n"
-    "+3/-3 support for transit infrastructure respectively."
+    "+3/-4 support for transit infrastructure respectively."
 )
 
 desc_3 = ("Several mixed-use complexes with limited parking are approved. Supporters were unaware that the\n"
-        "developer made a deal with the developer of a large parking complex nearby." 
+        "developer made a deal with the developer of a large parking complex nearby.\n" 
         "+3 support for densification. +2 support for urban car infrastructure by default, +5 with additional funding."
+)
+
+desc_4 = ("General Motors runs a hugely successful advertising campaign in the city.\n" 
+    "The fancy, seemingly affordable symbols of freedom fly off the lots.\n"
+    "+5 support for urban car infrastructure."
 )
 
 
 deck = [
     Card("Tram Derailment", tram_derailment, desc_1, None),
     Card("Strava Bro Assembly", strava_bro_assembly, desc_2, None),
-    Card("YIMBY Blunder", yimby_blunder, desc_3, "Strava Bro Assembly")
+    Card("YIMBY Blunder", yimby_blunder, desc_3, "Strava Bro Assembly"),
+    Card("Motor Envy", motor_envy, desc_4, None)
 
 ] * 30 #may need to adjust individual card counts
 
