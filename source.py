@@ -58,7 +58,6 @@ def tram_derailment(game_state, team, players, card):
         game_state.scores[1] += 3
         game_state.log(f"+3 transit-infra (now {game_state.scores[1]})")
 
-#instantiation currently gives it challenge rights against yimby blunder
 def strava_bro_assembly(game_state, team, players, card):
     #change choice to take user decision input
     choice = random.choice([True, False])
@@ -75,13 +74,14 @@ def yimby_blunder(game_state, team, players, card):
 
     if challenged:
         game_state.scores[0] += 3
-        game_state.scores[3] += 5
-        game_state.log(f"Additional funding provided! +3 density (now {game_state.scores[0]}), +5 urban-car infra (now {game_state.scores[3]})")
+        game_state.scores[3] += 4
+        game_state.log(f"Additional funding provided! +3 density (now {game_state.scores[0]}), +4 urban-car infra (now {game_state.scores[3]})")
     else:
         game_state.scores[0] += 3
         game_state.scores[3] += 2
         game_state.log(f"Standard funding. +3 density (now {game_state.scores[0]}), +2 urban-car infra (now {game_state.scores[3]})")
 
+#instantiation currently gives it challenge rights against yimby blunder
 def motor_envy(game_state, team, players, card):
 
     game_state.scores[3] += 5
@@ -138,7 +138,7 @@ desc_2 = (
 #YIMBY Blunder
 desc_3 = ("Several mixed-use complexes with limited parking are approved. Supporters were unaware that the\n"    
     "developer made a deal with the developer of a large parking complex nearby.\n" 
-    "+3 support for densification. +2 support for urban car infrastructure by default, +5 with additional funding."
+    "+3 support for densification. +2 support for urban car infrastructure by default, +4 with additional funding."
 )
 
 #Motor Envy
@@ -159,7 +159,7 @@ desc_5 = ("A big proponent of urban car infrastructure finds out the new highway
 deck = (
     [Card("Tram Derailment", tram_derailment, desc_1, None) for _ in range(10)] +
     [Card("Strava Bro Assembly", strava_bro_assembly, desc_2, None) for _ in range(12)] +
-    [Card("YIMBY Blunder", yimby_blunder, desc_3, "Strava Bro Assembly") for _ in range(6)] +
+    [Card("YIMBY Blunder", yimby_blunder, desc_3, "Motor Envy") for _ in range(6)] +
     [Card("Motor Envy", motor_envy, desc_4, None) for _ in range(13)] +
     [Card("NIMBY Confusion", nimby_confusion, desc_5, None) for _ in range(7)]
 ) 
