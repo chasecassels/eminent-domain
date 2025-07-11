@@ -1,7 +1,7 @@
 import random
 
 # -------------------------------
-# GameState: holds shared scores & log
+# Classes for current game, cards, and players
 # -------------------------------
 class GameState:
     def __init__(self):
@@ -14,9 +14,6 @@ class GameState:
         print(message)
         self.history.append(message)
 
-# -------------------------------
-# Card class
-# -------------------------------
 class Card:
     def __init__(self, name, effect_func, desc, challenger):
         self.name = name
@@ -28,9 +25,6 @@ class Card:
         game_state.log(f"\nTurn {game_state.turn}: {team} ({player}) plays '{self.name}'")
         self.effect(game_state, team, players, self)
 
-# -------------------------------
-# Player class
-# -------------------------------
 class Player:
     def __init__(self, name, team):
         self.name = name
@@ -105,15 +99,21 @@ def nimby_confusion(game_state, team, players, card):
 # are defined in card effect functions 
 # -------------------------------
 def challenge_func(game_state, card, team, players):
-    game_state.log(f"Card challengable. Checking for challenges")
+    game_state.log(f"Card challengable. Checking for challenges.")
     for player in players:
         for other_card in player.hand:
             if other_card.name == card.challenger:
                 #change challenge decision to take user input
-                choice = random.choice([True, False])
-                if choice:
-                    game_state.log(f"{player.name} Challenged! ")
-                return choice
+                 while True:
+                    choice = input(f"{player.name} would you like to challenge (y/n)?").strip().lower()
+                    if choice == "y":
+                        game_state.log(f"{player.name} Challenged! ")
+                        player.discard(other_card)
+                        return True
+                    elif choice == "n":
+                        return False
+                    else:
+                        print("Invalid input. Please enter 'y' or 'n'.")
 
 # -------------------------------
 # Declare constants and card objects
