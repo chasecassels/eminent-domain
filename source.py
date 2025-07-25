@@ -3,6 +3,7 @@ import random
 # -------------------------------
 # Classes for current game, cards, and players
 # -------------------------------
+
 class GameState:
     def __init__(self):
         #scoring caregories start at zero
@@ -91,9 +92,9 @@ def nimby_confusion(game_state, team, players, card, discard_pile):
 
 
 # -------------------------------
-# Universal challenge function. Effects of a challenge
-# are defined in card effect functions 
+# Universal challenge function
 # -------------------------------
+
 def challenge_func(game_state, card, team, players, discard_pile):
     game_state.log(f"Card challengable. Checking for challenges.")
     for player in players:
@@ -112,8 +113,9 @@ def challenge_func(game_state, card, team, players, discard_pile):
                     else:
                         print("Invalid input. Please enter 'y' or 'n'.")
 
+
 # -------------------------------
-# Declare constants and card objects
+# Constants and card objects
 # -------------------------------
 
 #Tram Derailment
@@ -164,13 +166,16 @@ Team_1 = 'Amsterdam'
 Team_2 = 'Houston'
 categories = ["density", "transit-infra", "suburb-devel", "urban-car-infra"]
 
+
 # -------------------------------
 # Win conditions (different for each team)
 # -------------------------------
+# Categories:
 # 0: density
 # 1: transit-infra
 # 2: suburb-devel
 # 3: urban-car-infra
+
 def check_win(game_state):
     #need to determine appropriate criteria here
     s = game_state.scores
@@ -183,34 +188,37 @@ def check_win(game_state):
         return Team_2
     return None
 
+
 # -------------------------------
 # Functionality for a player's turn
 # -------------------------------
+
 def player_turn(player, game_state, deck, discard_pile, players, max_hand=5):
 
     player.draw(deck, 1) #adjust how many card players draw at start of turn
 
     game_state.log(f"\n{player.name} ({player.team})'s hand:")
-    for idx, card in enumerate(player.hand):
-        print(f"{idx + 1}: {card.name}")
+
+    for i, card in enumerate(player.hand):
+        print(f"{i + 1}: {card.name}")
 
     while True:
         #wait for user input
         choice = input(f"\n{player.name}, choose a card to play (1-{len(player.hand)}) or d[number] for description: ")
         if choice.startswith("d"):
             try:
-                desc_idx = int(choice[1:]) - 1
-                if 0 <= desc_idx < len(player.hand):
-                    print(f"\n{player.hand[desc_idx].name}: {player.hand[desc_idx].desc}")
+                desc_i = int(choice[1:]) - 1
+                if 0 <= desc_i < len(player.hand):
+                    print(f"\n{player.hand[desc_i].name}: {player.hand[desc_i].desc}")
                 else:
                     print("Invalid card number for description.")
             except ValueError:
                 print("Type 'd' followed by the card number, e.g., d2 for card 2.")
             continue
         try:
-            idx = int(choice) - 1
-            if 0 <= idx < len(player.hand):
-                card = player.hand.pop(idx)
+            i = int(choice) - 1
+            if 0 <= i < len(player.hand):
+                card = player.hand.pop(i)
                 break
             else:
                 print("Invalid choice. Try again.")
@@ -222,12 +230,12 @@ def player_turn(player, game_state, deck, discard_pile, players, max_hand=5):
 
     while len(player.hand) > max_hand:
         print(f"\n{player.name}'s hand (too many cards):")
-        for idx, card in enumerate(player.hand):
-            print(f"{idx + 1}: {card.name}")
+        for i, card in enumerate(player.hand):
+            print(f"{i + 1}: {card.name}")
         while True:
             try:
-                discard_idx = int(input(f"\n{player.name}, choose a card to discard (1-{len(player.hand)}): ")) - 1
-                if 0 <= discard_idx < len(player.hand):
+                discard_i = int(input(f"\n{player.name}, choose a card to discard (1-{len(player.hand)}): ")) - 1
+                if 0 <= discard_i < len(player.hand):
                     discard = player.hand.pop(discard_idx)
                     discard_pile.append(discard)
                     game_state.log(f"{player.name} discards '{discard.name}'")
