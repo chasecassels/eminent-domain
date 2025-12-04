@@ -60,7 +60,7 @@ def tram_derailment(game_state, team, players, card, discard_pile):
         game_state.log(f"+3 {categories[1]} (now {game_state.scores[1]})")
 
 def strava_bro_assembly(game_state, team, players, card, discard_pile):
-    #change choice to take user decision input
+    #To-do: change choice to take user decision input
     choice = random.choice([True, False])
     if choice:
         game_state.scores[1] += 3
